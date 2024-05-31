@@ -10,6 +10,38 @@
     2. **구조체와 함수 포인터**: `Calculator`, `Route`, `App` 구조체와 함수 포인터를 사용하여 모듈화된 설계와 동적 라우팅을 구현했습니다.
 
     이 레포는 C 언어의 한계를 극복하고, 고급 언어의 특징을 C 스타일로 구현하려는 시도를 담고 있습니다.
+
+    # git clone https://github.com/emscripten-core/emsdk.git
+    # cd emsdk
+    # ./emsdk install latest
+    # ./emsdk activate latest
+    # source ./emsdk_env.sh
+    
+    # echo 'source /path/to/emsdk/emsdk_env.sh' >> ~/.bashrc
+    # source ~/.bashrc
+
+    # make
+    # master@DESKTOP-RMTOFBA:/mnt/d/c_functional_2024/functional programming$ make
+        emcc -O2 functional_clang.c -o functional_clang.js -s EXPORTED_FUNCTIONS="['_main']" -s EXPORTED_RUNTIME_METHODS='["ccall", "cwrap"]'
+        cache:INFO: generating system asset: symbol_lists/030c4a0b7369ead78f8bb1cc63b1930b44558dc9.json... (this will be cached in "/mnt/d/c_functional_2024/emsdk/upstream/emscripten/cache/symbol_lists/030c4a0b7369ead78f8bb1cc63b1930b44558dc9.json" for subsequent builds)
+        cache:INFO:  - ok
+
+
+    # python -m http.server
+*/
+
+/*
+    @ Developer : Azabell1993 Github master  
+    @ Created   : 2024-05-31
+    @ fileName  : functional_clang.c
+    @ Purpose   : Advanced C style lambda and component-based programming
+    @ Purpose   : 고급 C 스타일 람다 및 컴포넌트 기반 프로그래밍
+    
+    -- 소개
+    1. **컴포넌트 및 람다 매크로**: `component`와 `lambda` 매크로를 사용하여 컴포넌트 기반 및 람다 스타일 프로그래밍을 구현했습니다.
+    2. **구조체와 함수 포인터**: `Calculator`, `Route`, `App` 구조체와 함수 포인터를 사용하여 모듈화된 설계와 동적 라우팅을 구현했습니다.
+
+    이 레포는 C 언어의 한계를 극복하고, 고급 언어의 특징을 C 스타일로 구현하려는 시도를 담고 있습니다.
 */
 
 #pragma ONCE
@@ -23,7 +55,7 @@
 // 람다 함수 매크로
 #define lambda(return_type, function_body) ({ return_type __fn__ function_body __fn__; })
 // 컴포넌트 매크로
-#define component(name, body) void name() body
+#define component(name) void name()
 
 typedef struct Calculator Calculator;
 typedef struct Route Route;
@@ -93,27 +125,44 @@ App new_App() {
     return app;
 }
 
+// 람다 함수 정의
+double add_func(Calculator *self) {
+    return self->a + self->b;
+}
+
+double subtract_func(Calculator *self) {
+    return self->a - self->b;
+}
+
+double multiply_func(Calculator *self) {
+    return self->a * self->b;
+}
+
+double divide_func(Calculator *self) {
+    return self->a / self->b;
+}
+
 // HomePage 컴포넌트 정의
-component(HomePage, {
+component(HomePage) {
     printf("Welcome to the Home Page!\n");
-})
+}
 
 // CalculatorPage 컴포넌트 정의
-component(CalculatorPage, {
+component(CalculatorPage) {
     Calculator calc = new_Calculator(10.0, 5.0);
 
-    double sum = calc.apply(&calc, lambda(double, (Calculator *self) { return self->a + self->b; }));
+    double sum = calc.apply(&calc, add_func);
     printf("Sum: %lf\n", sum); // 15.0
 
-    double difference = calc.apply(&calc, lambda(double, (Calculator *self) { return self->a - self->b; }));
+    double difference = calc.apply(&calc, subtract_func);
     printf("Difference: %lf\n", difference); // 5.0
 
-    double product = calc.apply(&calc, lambda(double, (Calculator *self) { return self->a * self->b; }));
+    double product = calc.apply(&calc, multiply_func);
     printf("Product: %lf\n", product); // 50.0
 
-    double quotient = calc.apply(&calc, lambda(double, (Calculator *self) { return self->a / self->b; }));
+    double quotient = calc.apply(&calc, divide_func);
     printf("Quotient: %lf\n", quotient); // 2.0
-})
+}
 
 // Controller 함수 정의
 void controller(App *app) {
@@ -122,8 +171,16 @@ void controller(App *app) {
     app->navigate(app, "/non-existent");
 }
 
+// 메인 함수 보호 플래그
+int main_called = 0;
+
 // 메인 함수
 int main(int argc, char** argv) {
+    if (main_called) {
+        return 0;
+    }
+    main_called = 1;
+
     App app = new_App();
     
     app.add_route(&app, "/", HomePage);

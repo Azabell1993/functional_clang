@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Functional Clang with Emscripten</title>
+</head>
+<body>
+    <h1>Functional Clang with Emscripten</h1>
+    <script src="functional_clang.js"></script>
+    <script>
+        // Emscripten 모듈 로드 후 main 함수 호출
+        Module.onRuntimeInitialized = function() {
+            // main 함수 호출
+            Module._main();
+        };
+    </script>
+</body>
+</html>
