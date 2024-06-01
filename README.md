@@ -121,6 +121,9 @@ int main(int argc, char** argv) {
 
 ### Contributing  
 Contributions are welcome! Please fork the repository and create a pull request with your changes.  
+
+### Build    
+![build_example](https://github.com/Azabell1993/functional_clang_2024/assets/75885992/8e987232-9796-4853-97c7-1198ac3987cd)  
   
 ### License   
 This project is licensed under the MIT License. See the LICENSE file for details.   
