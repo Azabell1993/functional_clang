@@ -30,20 +30,6 @@
     # python -m http.server
 */
 
-/*
-    @ Developer : Azabell1993 Github master  
-    @ Created   : 2024-05-31
-    @ fileName  : functional_clang.c
-    @ Purpose   : Advanced C style lambda and component-based programming
-    @ Purpose   : 고급 C 스타일 람다 및 컴포넌트 기반 프로그래밍
-    
-    -- 소개
-    1. **컴포넌트 및 람다 매크로**: `component`와 `lambda` 매크로를 사용하여 컴포넌트 기반 및 람다 스타일 프로그래밍을 구현했습니다.
-    2. **구조체와 함수 포인터**: `Calculator`, `Route`, `App` 구조체와 함수 포인터를 사용하여 모듈화된 설계와 동적 라우팅을 구현했습니다.
-
-    이 레포는 C 언어의 한계를 극복하고, 고급 언어의 특징을 C 스타일로 구현하려는 시도를 담고 있습니다.
-*/
-
 #pragma ONCE
 #ifndef DRAFT_H
 #define DRAFT_H
