@@ -30,7 +30,7 @@ make
 ### This will generate functional_clang.js with the following command:  
 ```
 emcc -O2 functional_clang.c -o functional_clang.js -s EXPORTED_FUNCTIONS="['_main']" -s EXPORTED_RUNTIME_METHODS='["ccall", "cwrap"]'
-``  
+```  
 - Running the Project  
    
 ###  To run the project locally, use Python's HTTP server:    
