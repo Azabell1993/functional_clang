@@ -38,8 +38,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// 람다 함수 매크로
-#define lambda(return_type, function_body) ({ return_type __fn__ function_body __fn__; })
 // 컴포넌트 매크로
 #define component(name) void name()
 

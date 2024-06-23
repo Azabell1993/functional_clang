@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Functional Clang with Emscripten</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #2E8B57;
+        }
+        button {
+            margin: 5px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Functional Clang with Emscripten</h1>
+    <button id="homeBtn">Home Page</button>
+    <button id="calculatorBtn">Calculator Page</button>
+    <button id="nonExistentBtn">Non-Existent Route</button>
+
+    <script src="functional_clang.js"></script>
+    <script>
+        // Emscripten 모듈 로드 후 main 함수 호출
+        Module.onRuntimeInitialized = function() {
+            console.log("Module initialized");
+            // main 함수 호출
+            Module._main();
+
+            // alert 창을 테스트로 바로 띄우기
+            alert("Module initialized and main function called");
+
+            // 버튼 클릭 시 navigate_path 함수 호출
+            document.getElementById('homeBtn').addEventListener('click', function() {
+                alert('Navigating to Home Page'); // 직접 호출 확인
+                navigate_path('/');
+            });
+
+            document.getElementById('calculatorBtn').addEventListener('click', function() {
+                alert('Navigating to Calculator Page'); // 직접 호출 확인
+                navigate_path('/calculator');
+            });
+
+            document.getElementById('nonExistentBtn').addEventListener('click', function() {
+                alert('Navigating to Non-Existent Route'); // 직접 호출 확인
+                navigate_path('/non-existent');
+            });
+        };
+
+        function navigate_path(path) {
+            console.log(`Navigating to ${path}`);
+            var cwrapNavigate = Module.cwrap('navigate_path', null, ['string']);
+            cwrapNavigate(path);
+        }
+
+        // stdout을 가로채서 alert 창으로 출력
+        Module.print = function(text) {
+            console.log(`Module print: ${text}`);
+            alert(text);
+        };
+
+        // 표준 에러도 동일하게 처리
+        Module.printErr = function(text) {
+            console.log(`Module printErr: ${text}`);
+            alert(`Error: ${text}`);
+        };
+    </script>
+</body>
+</html>
