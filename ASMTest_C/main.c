@@ -13,8 +13,19 @@ PROC(main)
     POP(n);
 
     // 문자열 출력
-    const char* str = "Hello, World!";
-    PUSH((INT)str);  // 스택에 문자열의 주소를 푸시
+    const char* str1 = "Hanwha veda Academy";
+    PUSH((INT)str1);  // 스택에 문자열의 주소를 푸시
+    CALL(print_str); // print_str 함수를 호출하여 문자열을 출력
+    POP(n);          // 스택에서 값을 팝하여 n에 저장
+
+    // 개행 추가
+    PUSH((INT)newline);
+    CALL(print_str);
+    POP(n);
+
+        // 문자열 출력
+    const char* str2 = "Hello, World!";
+    PUSH((INT)str2);  // 스택에 문자열의 주소를 푸시
     CALL(print_str); // print_str 함수를 호출하여 문자열을 출력
     POP(n);          // 스택에서 값을 팝하여 n에 저장
 

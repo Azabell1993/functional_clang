@@ -7,7 +7,7 @@
 #include <setjmp.h>
 #include <memory.h>
 
-#define SYSTEM_BIT  64 // 시스템의 비트 수를 정의 (32비트 시스템)
+#define SYSTEM_BIT  32 // 시스템의 비트 수를 정의 (32비트 시스템)
 
 typedef const char* STRING; // STRING 타입을 const char*로 정의
 typedef unsigned char BYTE; // BYTE 타입을 unsigned char로 정의
@@ -102,7 +102,7 @@ enum FLAG {
 #define DEC(param)              { --(param); }
 
 // LEA 명령어를 정의하는 매크로
-#define LEA(dst, src)           { (dst) = (INT)(src); }
+#define LEA(dst, src)           { (dst) = (void*)(src); }
 // SETL 명령어를 정의하는 매크로
 #define SETL(dst, src)          { *(INT *)(dst) = (src); }
 // GETL 명령어를 정의하는 매크로
