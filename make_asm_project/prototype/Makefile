@@ -1,10 +1,18 @@
 # Makefile for building the project
 
-# Compiler
-CC = gcc
+# Determine the OS and set the compiler
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S), Darwin)  		# MacOS
+    CC = clang
+else ifeq ($(UNAME_S), Linux)  	# Linux
+    CC = gcc
+else
+    $(error Unsupported OS: $(UNAME_S))
+endif
 
 # Compiler flags
-CFLAGS = -std=c11 -fexec-charset=CP949
+CFLAGS = -std=c11
 
 # Executable name
 TARGET = asm_main

@@ -6,8 +6,23 @@
 #include <stdlib.h>
 #include <setjmp.h>
 #include <memory.h>
-
-#define SYSTEM_BIT  32 // 시스템의 비트 수를 정의 (32비트 시스템)
+    
+// 컴파일러에 따른 분기 설정
+#if defined(__clang__) // Clang용 설정
+    #if defined(__x86_64__) || defined(__ppc64__)
+        #define SYSTEM_BIT  64 // 64비트 시스템
+    #else
+        #define SYSTEM_BIT  32 // 32비트 시스템
+    #endif
+#elif defined(__GNUC__) // GCC용 설정
+    #if defined(__x86_64__) || defined(__ppc64__)
+        #define SYSTEM_BIT  64 // 64비트 시스템
+    #else
+        #define SYSTEM_BIT  32 // 32비트 시스템
+    #endif
+#else
+    #error "Unsupported compiler"
+#endif
 
 typedef const char* STRING; // STRING 타입을 const char*로 정의
 typedef unsigned char BYTE; // BYTE 타입을 unsigned char로 정의
@@ -54,7 +69,7 @@ enum FLAG {
 };
 
 // 프로시저 시작을 정의하는 매크로
-#define PROC(proc_name)         INT proc_name() { proc_init();
+#define PROC(proc_name)         int proc_name() { proc_init();
 // 프로시저 종료를 정의하는 매크로
 #define ENDP                    _end_proc: proc_retn(); return 0; }
 
