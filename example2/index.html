@@ -1,34 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Functional Clang with Emscripten</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #f5f5f5, #e0e0e0); /* 밝고 세련된 배경 색상 */
+            color: #333;
+            text-align: center;
         }
+
         h1 {
-            color: #2E8B57;
+            font-size: 3em;
+            margin: 0.5em 0;
+            color: #FF6F00; /* 주황색 시그니처 */
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
-        button {
-            margin: 5px;
-            padding: 10px;
-            background-color: #4CAF50;
+
+        .container {
+            padding: 2em;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 2em;
+        }
+
+        .buttons button {
+            margin: 10px;
+            padding: 15px 30px;
+            background-color: #FF9800; /* 주황색 버튼 */
             color: white;
             border: none;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 20px; /* 부드러운 둥근 모서리 */
+            font-size: 1.2em;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 버튼에 약간의 그림자 */
         }
-        button:hover {
-            background-color: #45a049;
+
+        .buttons button:hover {
+            background-color: #FB8C00;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 호버 시 더욱 강조 */
+        }
+
+        .wasm-console {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px; /* 부드러운 둥근 모서리 */
+            margin-top: 2em;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); /* 콘솔에 그림자 */
+        }
+
+        .wasm-console h2 {
+            font-size: 1.8em;
+            color: #FF6F00; /* 주황색 시그니처 */
+            margin-bottom: 0.5em;
+        }
+
+        .wasm-console p {
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 1em;
+            background-color: #FF6F00; /* 주황색 시그니처 */
+            color: white;
+            font-size: 0.9em;
         }
     </style>
 </head>
 <body>
-    <h1>Functional Clang with Emscripten</h1>
-    <button id="homeBtn">Home Page</button>
-    <button id="calculatorBtn">Calculator Page</button>
-    <button id="nonExistentBtn">Non-Existent Route</button>
+    <div class="container">
+        <header>
+            <h1>환영합니다!</h1>
+        </header>
+
+        <div class="wasm-console">
+		<h2>C언어 - WASM 테스트</h2>
+            <p>아래 버튼을 눌러 웹 콘솔 창을 확인하세요.</p>
+
+            <div class="buttons">
+                <button id="homeBtn">Home Page</button>
+                <button id="calculatorBtn">Calculator Page</button>
+                <button id="nonExistentBtn">Non-Existent Route</button>
+            </div>
+        </div>
+
+        <footer>
+            © 2024 한화비전. All rights reserved.
+        </footer>
+    </div>
 
     <script src="functional_clang.js"></script>
     <script>
@@ -39,12 +114,12 @@
             Module._main();
 
             // alert 창을 테스트로 바로 띄우기
-            alert("Module initialized and main function called");
+            //alert("Module initialized and main function called");
 
             // 버튼 클릭 시 navigate_path 함수 호출
             document.getElementById('homeBtn').addEventListener('click', function() {
                 alert('Navigating to Home Page'); // 직접 호출 확인
-                navigate_path('/');
+		navigate_path('/');
             });
 
             document.getElementById('calculatorBtn').addEventListener('click', function() {
@@ -78,3 +153,4 @@
     </script>
 </body>
 </html>
+
