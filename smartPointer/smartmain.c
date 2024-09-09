@@ -90,18 +90,31 @@ void retain(SmartPtr *sp) {
 // 참조 카운트 감소 및 메모리 해제
 void release(SmartPtr *sp) {
     int should_free = 0;
+
     pthread_mutex_lock(sp->mutex);
     (*(sp->ref_count))--;
+    printf("Smart pointer released (ref_count: %d)\n", *(sp->ref_count));
+
     if (*(sp->ref_count) == 0) {
         should_free = 1;
+        printf("Reference count is 0, freeing memory...\n");
+    } else {
+        // Reference count is not 0, do not free memory
+        printf("Reference count is not 0, not freeing memory\n");
     }
+
     pthread_mutex_unlock(sp->mutex);
 
     if (should_free) {
         free(sp->ptr);
+        sp->ptr = NULL;  // 포인터를 NULL로 설정하여 중복 해제 방지
         free(sp->ref_count);
+        sp->ref_count = NULL;  // ref_count도 NULL로 설정
+
         pthread_mutex_destroy(sp->mutex);
         free(sp->mutex);
+        sp->mutex = NULL;  // mutex 포인터도 NULL로 설정
+        printf("Memory has been freed\n");
     }
 }
 
